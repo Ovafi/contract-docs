@@ -68,6 +68,14 @@ address proposedAave
 
 @notice the proposed new spender
 
+### emergencyWithdrawProposalTime
+
+```solidity
+uint256 emergencyWithdrawProposalTime
+```
+
+@notice the last emergency withdraw time
+
 ### aaveProposalTime
 
 ```solidity
@@ -175,6 +183,30 @@ _Can not be zero address_
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | aave | address | The new AAVE address |
+
+### setEmergencyWithdrawRecipient
+
+```solidity
+function setEmergencyWithdrawRecipient(address recipient) external
+```
+
+A new emergency withdraw recipient
+
+_Can not be zero address_
+
+#### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| recipient | address | The new recipient |
+
+### proposeEmergencyTime
+
+```solidity
+function proposeEmergencyTime() external
+```
+
+Propose a emergency withdraw time
 
 ### proposeNewTeamAllocation
 
@@ -663,6 +695,31 @@ event USDOSpenderAccepted()
 
 ```solidity
 function transferInRewards(uint256 amount) external
+```
+
+## MintRedeemManagerTypes
+
+### Order
+
+```solidity
+struct Order {
+  address benefactor;
+  address beneficiary;
+  address collateral_usdt;
+  address collateral_usdc;
+  uint256 collateral_usdt_amount;
+  uint256 collateral_usdc_amount;
+  uint256 usdo_amount;
+}
+```
+
+### StableCoin
+
+```solidity
+struct StableCoin {
+  address addr;
+  uint256 decimals;
+}
 ```
 
 ## ICurvePool
@@ -1639,6 +1696,44 @@ function emergencyWithdraw(uint256 pid) external
 
 ```solidity
 function mint(address to, uint256 amount) external
+```
+
+## IOvaReferral
+
+### referredFrom
+
+```solidity
+function referredFrom(address user) external view returns (address)
+```
+
+### referralCodes
+
+```solidity
+function referralCodes(string code) external view returns (address)
+```
+
+### seeReferred
+
+```solidity
+function seeReferred(address user) external view returns (address[])
+```
+
+### generatedPoints
+
+```solidity
+function generatedPoints(address user) external view returns (uint256)
+```
+
+### track
+
+```solidity
+function track(address user, uint256 amount) external
+```
+
+### consumeReferral
+
+```solidity
+function consumeReferral(string code, address consumer) external
 ```
 
 ## SingleAdminAccessControl
@@ -3391,44 +3486,6 @@ event SuppliedToBacking(address supplier, uint256 amountUsdc, uint256 amountUsdt
 
 Event emitted when collateral has been supplied to the backing contract
 
-## IOvaReferral
-
-### referredFrom
-
-```solidity
-function referredFrom(address user) external view returns (address)
-```
-
-### referralCodes
-
-```solidity
-function referralCodes(string code) external view returns (address)
-```
-
-### seeReferred
-
-```solidity
-function seeReferred(address user) external view returns (address[])
-```
-
-### generatedPoints
-
-```solidity
-function generatedPoints(address user) external view returns (uint256)
-```
-
-### track
-
-```solidity
-function track(address user, uint256 amount) external
-```
-
-### consumeReferral
-
-```solidity
-function consumeReferral(string code, address consumer) external
-```
-
 ## IStakedUSDO
 
 ### RewardsReceived
@@ -3687,28 +3744,3 @@ error OnlyStakingVault()
 ```
 
 Error emitted when the staking vault is not the caller
-
-## MintRedeemManagerTypes
-
-### Order
-
-```solidity
-struct Order {
-  address benefactor;
-  address beneficiary;
-  address collateral_usdt;
-  address collateral_usdc;
-  uint256 collateral_usdt_amount;
-  uint256 collateral_usdc_amount;
-  uint256 usdo_amount;
-}
-```
-
-### StableCoin
-
-```solidity
-struct StableCoin {
-  address addr;
-  uint256 decimals;
-}
-```
